@@ -12,7 +12,8 @@ export interface OSSProject {
 export const ossProjects: OSSProject[] = [
   {
     name: 'turbo-query',
-    description: 'A zero-dependency, type-safe query builder for TypeScript with full support for complex joins and subqueries.',
+    description:
+      'A zero-dependency, type-safe query builder for TypeScript with full support for complex joins and subqueries.',
     url: 'https://github.com/yourusername/turbo-query',
     stars: 2100,
     forks: 134,
@@ -22,7 +23,8 @@ export const ossProjects: OSSProject[] = [
   },
   {
     name: 'csscraft',
-    description: 'A modern CSS-in-JS alternative that leverages CSS custom properties for zero-runtime styling at scale.',
+    description:
+      'A modern CSS-in-JS alternative that leverages CSS custom properties for zero-runtime styling at scale.',
     url: 'https://github.com/yourusername/csscraft',
     stars: 987,
     forks: 67,
@@ -32,7 +34,8 @@ export const ossProjects: OSSProject[] = [
   },
   {
     name: 'vite-plugin-analyze',
-    description: 'Vite plugin for bundle analysis with an interactive treemap visualization and size regression alerts.',
+    description:
+      'Vite plugin for bundle analysis with an interactive treemap visualization and size regression alerts.',
     url: 'https://github.com/yourusername/vite-plugin-analyze',
     stars: 543,
     forks: 28,
@@ -42,7 +45,8 @@ export const ossProjects: OSSProject[] = [
   },
   {
     name: 'accessible-modal',
-    description: 'A fully accessible modal dialog with focus trapping, ARIA attributes, and keyboard navigation baked in.',
+    description:
+      'A fully accessible modal dialog with focus trapping, ARIA attributes, and keyboard navigation baked in.',
     url: 'https://github.com/yourusername/accessible-modal',
     stars: 321,
     forks: 45,
@@ -62,7 +66,8 @@ export const ossProjects: OSSProject[] = [
   },
   {
     name: 'devlog',
-    description: 'A minimal static-site generator for developer blogs with MDX support and built-in syntax highlighting.',
+    description:
+      'A minimal static-site generator for developer blogs with MDX support and built-in syntax highlighting.',
     url: 'https://github.com/yourusername/devlog',
     stars: 234,
     forks: 31,

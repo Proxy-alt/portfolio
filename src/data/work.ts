@@ -14,7 +14,8 @@ export const workProjects: WorkProject[] = [
     company: 'Acme Platform',
     role: 'Lead Frontend Engineer',
     period: '2023 – Present',
-    description: 'Leading the migration of a legacy jQuery monolith to a modern React + TypeScript stack serving 3M+ daily active users.',
+    description:
+      'Leading the migration of a legacy jQuery monolith to a modern React + TypeScript stack serving 3M+ daily active users.',
     impact: [
       'Reduced Time-to-Interactive by 60%',
       'Shipped design system used across 4 products',
@@ -28,12 +29,9 @@ export const workProjects: WorkProject[] = [
     company: 'StartupCo',
     role: 'Full-Stack Engineer',
     period: '2021 – 2023',
-    description: 'Built and scaled the core product from 0 to Series A. Owned the data pipeline, GraphQL API, and the React frontend.',
-    impact: [
-      'Launched 0→1 in 4 months',
-      'Scaled to 50 000 users pre-Series A',
-      'Designed multi-tenant architecture',
-    ],
+    description:
+      'Built and scaled the core product from 0 to Series A. Owned the data pipeline, GraphQL API, and the React frontend.',
+    impact: ['Launched 0→1 in 4 months', 'Scaled to 50 000 users pre-Series A', 'Designed multi-tenant architecture'],
     url: 'https://startupco.example.com',
     tags: ['Node.js', 'GraphQL', 'PostgreSQL', 'React'],
     accentColor: 'oklch(0.65 0.2 140)',
@@ -42,7 +40,8 @@ export const workProjects: WorkProject[] = [
     company: 'OpenWeb Foundation',
     role: 'Contract Engineer',
     period: '2020 – 2021',
-    description: 'Worked on open standards tooling and developer advocacy for web accessibility guidelines and WCAG compliance automation.',
+    description:
+      'Worked on open standards tooling and developer advocacy for web accessibility guidelines and WCAG compliance automation.',
     impact: [
       'Contributed to WCAG tooling',
       'Wrote technical documentation read by 40k devs',
@@ -56,7 +55,8 @@ export const workProjects: WorkProject[] = [
     company: 'Freelance',
     role: 'Independent Developer',
     period: '2018 – 2020',
-    description: 'Delivered web applications, brand sites, and e-commerce solutions for clients across retail, media, and fintech.',
+    description:
+      'Delivered web applications, brand sites, and e-commerce solutions for clients across retail, media, and fintech.',
     impact: [
       '20+ projects shipped on time',
       'E-commerce stores generating $2M+ ARR',
