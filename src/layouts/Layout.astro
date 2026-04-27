@@ -1,0 +1,215 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { ViewTransitions } from 'astro:transitions';
+import { profile } from '../data/profile';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${profile.name} — Portfolio`,
+  description = profile.bio,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Nav />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  /* ─── Cascade layers ──────────────────────────── */
+  @layer reset, base, components, utilities;
+
+  /* ─── Animated CSS custom properties (Houdini @property) ─ */
+  @property --bg-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+  @property --glow-opacity {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0.4;
+  }
+
+  @keyframes rotate-bg   { to { --bg-angle: 360deg; } }
+  @keyframes pulse-glow  { 50% { --glow-opacity: 0.65; } }
+  @keyframes bounce-down {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(7px); }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; translate: 0 2rem; filter: blur(6px); }
+  }
+
+  /* ─── Reset ───────────────────────────────────── */
+  @layer reset {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html                   { scroll-behavior: smooth; }
+    img, svg, video        { display: block; max-width: 100%; }
+    input, button, textarea, select { font: inherit; }
+    p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+    a                      { color: inherit; }
+    ul[role="list"], ol[role="list"] { list-style: none; }
+    summary                { list-style: none; cursor: pointer; }
+    summary::-webkit-details-marker { display: none; }
+  }
+
+  /* ─── Design tokens ───────────────────────────── */
+  @layer base {
+    :root {
+      /* Colors — oklch() color space for perceptual uniformity */
+      --clr-bg:        oklch(0.08 0.03 265);
+      --clr-surface:   color-mix(in oklch, white 7%, transparent);
+      --clr-surface-h: color-mix(in oklch, white 13%, transparent);
+      --clr-border:    color-mix(in oklch, white 14%, transparent);
+      --clr-border-h:  color-mix(in oklch, white 28%, transparent);
+      --clr-accent:    oklch(0.72 0.18 265);
+      --clr-accent-2:  oklch(0.72 0.20 300);
+      --clr-accent-3:  oklch(0.72 0.18 200);
+      --clr-text:      oklch(0.95 0.01 265);
+      --clr-muted:     oklch(0.58 0.02 265);
+      --clr-donate:    oklch(0.75 0.18 30);
+      --clr-star:      oklch(0.88 0.15 85);
+
+      /* Effects */
+      --blur:     blur(22px) saturate(160%);
+      --blur-sm:  blur(10px) saturate(140%);
+      --shadow:   0 4px 32px oklch(0 0 0 / 0.4);
+      --shadow-lg:0 8px 64px oklch(0 0 0 / 0.55);
+
+      /* Geometry */
+      --radius:    1rem;
+      --radius-sm: 0.5rem;
+      --radius-lg: 1.5rem;
+      --nav-h:     4rem;
+      --container: min(90rem, 100% - 3rem);
+
+      color-scheme: dark;
+    }
+
+    html {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(0.875rem, 0.82rem + 0.28vw, 1rem);
+    }
+
+    body {
+      background-color: var(--clr-bg);
+      color: var(--clr-text);
+      min-height: 100svh;
+      line-height: 1.7;
+      /* Animated mesh gradient — uses @property for smooth interpolation */
+      background-image:
+        radial-gradient(ellipse 80% 55% at 10%  5%,  oklch(0.28 0.15 265 / var(--glow-opacity))       0%, transparent 60%),
+        radial-gradient(ellipse 70% 55% at 90% 95%,  oklch(0.25 0.18 300 / calc(var(--glow-opacity) * 0.8)) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 50%,  oklch(0.14 0.06 265 / 0.6) 0%, transparent 70%);
+      animation: pulse-glow 9s ease-in-out infinite;
+    }
+
+    /* Second gradient layer for depth */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 82%, oklch(0.30 0.14 200 / 0.14) 0%, transparent 38%),
+        radial-gradient(circle at 82% 18%, oklch(0.30 0.18 320 / 0.14) 0%, transparent 38%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding-block: clamp(4rem, 8vw, 8rem); }
+
+    .container {
+      width: var(--container);
+      margin-inline: auto;
+    }
+
+    h1, h2, h3, h4 { line-height: 1.2; text-wrap: balance; }
+
+    h2 {
+      font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+      font-weight: 700;
+    }
+
+    .section-header { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+    .section-header p { color: var(--clr-muted); font-size: 1.05rem; text-wrap: pretty; margin-top: 0.4rem; }
+
+    /* ── Glassmorphism utility ── */
+    .glass {
+      background: var(--clr-surface);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .glass:where(:hover, :focus-within) {
+      background: var(--clr-surface-h);
+      border-color: var(--clr-border-h);
+    }
+
+    /* ── Scroll-driven reveal (view() timeline) ── */
+    @supports (animation-timeline: view()) {
+      .reveal {
+        animation: reveal-fade linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+      }
+      @keyframes reveal-fade {
+        from { opacity: 0; translate: 0 2.5rem; filter: blur(5px); }
+      }
+    }
+
+    /* Focus ring */
+    :focus-visible {
+      outline: 2px solid var(--clr-accent);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar          { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track    { background: transparent; }
+    ::-webkit-scrollbar-thumb    { background: var(--clr-border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--clr-border-h); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--clr-accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0.75rem; }
+  }
+</style>
