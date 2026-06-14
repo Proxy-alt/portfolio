@@ -1,276 +1,143 @@
 ---
-
 import { profile } from '../data/profile';
 
-const initials = profile.name.split(' ').map(n => n[0]).join('');
-
-const navLinks = [
-  { label: 'About',   href: '#profile' },
-  { label: 'OSS',     href: '#oss' },
-  { label: 'Work',    href: '#work' },
+const links = [
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact',  href: '#contact' },
 ];
 ---
 
 <header class="site-header">
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <nav class="nav glass container" aria-label="Main navigation">
-    <a href="/" class="nav__brand" aria-label="Home — {profile.name}">
-      <span class="nav__initials" aria-hidden="true">{initials}</span>
-      <span class="nav__name">{profile.name}</span>
+  <div class="nav-bar container" role="banner">
+    <a href="/" class="nav-brand" aria-label={`${profile.name} — Home`}>
+      <span class="nav-brand__initials" aria-hidden="true">
+        {profile.firstName[0]}{profile.lastName[0]}
+      </span>
+      <span class="nav-brand__name">{profile.name}</span>
     </a>
 
-    <ul class="nav__links" role="list">
-      {navLinks.map(link => (
-        <li>
-          <a href={link.href} class="nav__link">{link.label}</a>
-        </li>
-      ))}
-    </ul>
+    <nav aria-label="Primary">
+      <ul class="nav-links" role="list">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} class="nav-link">{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
 
     <a
-      href={profile.donateUrl}
-      class="nav__donate"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Support my work via donation"
+      href={`mailto:${profile.socials.find((s) => s.icon === 'mail')?.href.replace('mailto:', '')}`}
+      class="nav-cta"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
-      </svg>
-      Donate
+      Get in touch
     </a>
-
-    <!-- Popover API — experimental HTML feature for overlay menus -->
-    <button
-      class="nav__burger"
-      popovertarget="mobile-nav"
-      aria-label="Open navigation menu"
-      aria-haspopup="dialog"
-    >
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  </div>
 </header>
-
-<!-- Mobile nav using the native Popover API -->
-<div id="mobile-nav" popover role="dialog" aria-label="Mobile navigation" class="mobile-nav">
-  <button
-    class="mobile-nav__close"
-    popovertarget="mobile-nav"
-    popovertargetaction="hide"
-    aria-label="Close navigation"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M18 6 6 18M6 6l12 12"/>
-    </svg>
-  </button>
-
-  <nav aria-label="Mobile navigation links">
-    <ul class="mobile-nav__links" role="list">
-      {navLinks.map(link => (
-        <li>
-          <a
-            href={link.href}
-            class="mobile-nav__link"
-            popovertarget="mobile-nav"
-            popovertargetaction="hide"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-      <li>
-        <a
-          href={profile.donateUrl}
-          class="mobile-nav__link mobile-nav__donate"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ♥ Donate
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
 
 <style>
   .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 0.75rem 0;
+    /* Scroll-driven hairline: fades in as you scroll past 1px */
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
   }
 
-  .nav {
+  .nav-bar {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0.625rem 1.25rem;
-    border-radius: var(--radius-lg);
+    gap: 2rem;
     height: var(--nav-h);
+    /* Translucent frosted surface */
+    background: color-mix(in oklab, var(--paper) 80%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Scroll-driven border reveal */
   }
 
-  /* Brand */
-  .nav__brand {
+  /* Hairline appears once page has scrolled */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .site-header {
+        animation: show-border linear both;
+        animation-timeline: scroll();
+        animation-range: 0px 60px;
+      }
+      @keyframes show-border {
+        from { border-color: transparent; }
+        to   { border-color: var(--hairline); }
+      }
+    }
+  }
+
+  .nav-brand {
     display: flex;
     align-items: center;
     gap: 0.625rem;
     text-decoration: none;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    color: var(--ink);
     flex-shrink: 0;
+    margin-right: auto;
   }
 
-  .nav__initials {
-    width: 2rem;
-    height: 2rem;
+  .nav-brand__initials {
+    width: 1.875rem;
+    height: 1.875rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-2));
+    background: var(--ink);
+    color: var(--paper);
     display: grid;
     place-items: center;
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
     flex-shrink: 0;
   }
 
-  /* Links */
-  .nav__links {
+  .nav-links {
     display: flex;
-    gap: 0.125rem;
+    gap: 0.25rem;
     list-style: none;
-    margin-inline-start: auto;
   }
 
-  .nav__link {
+  .nav-link {
     padding: 0.375rem 0.875rem;
     text-decoration: none;
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.875rem;
     font-weight: 500;
-    color: var(--clr-muted);
-    transition: color 0.2s, background 0.2s;
-  }
-  .nav__link:hover {
-    color: var(--clr-text);
-    background: var(--clr-surface-h);
-  }
-
-  /* Donate button */
-  .nav__donate {
+    color: var(--ink-2);
+    transition: color 0.15s, background 0.15s;
+    min-height: 2rem;
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.4rem 1rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid color-mix(in oklch, var(--clr-donate) 45%, transparent);
-    background: color-mix(in oklch, var(--clr-donate) 15%, transparent);
+  }
+  .nav-link:hover {
+    color: var(--ink);
+    background: var(--panel);
+  }
+
+  .nav-cta {
+    padding: 0.4375rem 1.125rem;
+    border-radius: var(--radius-pill);
+    background: var(--ink);
+    color: var(--paper);
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--clr-donate);
     flex-shrink: 0;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .nav__donate:hover {
-    background: color-mix(in oklch, var(--clr-donate) 25%, transparent);
-    transform: translateY(-1px);
-  }
-
-  /* Hamburger */
-  .nav__burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    width: 2.25rem;
-    height: 2.25rem;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    margin-inline-start: auto;
-    padding: 0.4rem;
-  }
-  .nav__burger span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: var(--clr-text);
-    border-radius: 2px;
-  }
-
-  /* ─── Mobile popover ───────────────────────── */
-  .mobile-nav {
-    position: fixed;
-    inset: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    border: none;
-    background: color-mix(in oklch, var(--clr-bg) 88%, transparent);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    transition: background 0.15s;
+    min-height: 2rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    /* Popover transition using @starting-style (experimental) */
-    opacity: 1;
-    transition: opacity 0.3s, display 0.3s allow-discrete, overlay 0.3s allow-discrete;
   }
+  .nav-cta:hover { background: color-mix(in oklab, var(--ink) 85%, transparent); }
 
-  /* @starting-style — animates the popover opening state */
-  @starting-style {
-    .mobile-nav:popover-open { opacity: 0; }
-  }
-
-  .mobile-nav:not(:popover-open) { opacity: 0; }
-
-  .mobile-nav__close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: var(--clr-surface);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    color: var(--clr-text);
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: background 0.2s;
-  }
-  .mobile-nav__close:hover { background: var(--clr-surface-h); }
-
-  .mobile-nav__links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .mobile-nav__link {
-    font-size: clamp(1.5rem, 5vw, 2rem);
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--clr-text);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
-    transition: color 0.2s, background 0.2s;
-  }
-  .mobile-nav__link:hover      { background: var(--clr-surface-h); }
-  .mobile-nav__donate          { color: var(--clr-donate); }
-  .mobile-nav__donate:hover    { background: color-mix(in oklch, var(--clr-donate) 15%, transparent); }
-
-  @media (max-width: 640px) {
-    .nav__links, .nav__donate { display: none; }
-    .nav__burger               { display: flex; }
+  @media (max-width: 540px) {
+    .nav-links { display: none; }
   }
 </style>

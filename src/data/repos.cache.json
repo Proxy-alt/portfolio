@@ -1,0 +1,38 @@
+{
+  "yourusername/turbo-query": {
+    "stargazerCount": 2100,
+    "primaryLanguage": { "name": "TypeScript", "color": "#3178c6" },
+    "pushedAt": "2024-11-15T10:00:00Z",
+    "description": "A zero-dependency, type-safe query builder for TypeScript"
+  },
+  "yourusername/csscraft": {
+    "stargazerCount": 987,
+    "primaryLanguage": { "name": "JavaScript", "color": "#f7df1e" },
+    "pushedAt": "2024-10-03T10:00:00Z",
+    "description": "A modern CSS-in-JS alternative with zero-runtime styling"
+  },
+  "yourusername/vite-plugin-analyze": {
+    "stargazerCount": 543,
+    "primaryLanguage": { "name": "TypeScript", "color": "#3178c6" },
+    "pushedAt": "2024-09-20T10:00:00Z",
+    "description": "Vite plugin for bundle analysis with interactive treemap"
+  },
+  "yourusername/accessible-modal": {
+    "stargazerCount": 321,
+    "primaryLanguage": { "name": "TypeScript", "color": "#3178c6" },
+    "pushedAt": "2024-08-12T10:00:00Z",
+    "description": "Fully accessible modal dialog with focus trapping and ARIA"
+  },
+  "yourusername/rust-json-fast": {
+    "stargazerCount": 1456,
+    "primaryLanguage": { "name": "Rust", "color": "#dea584" },
+    "pushedAt": "2024-12-01T10:00:00Z",
+    "description": "High-performance JSON parser in Rust with WebAssembly bindings"
+  },
+  "yourusername/devlog": {
+    "stargazerCount": 234,
+    "primaryLanguage": { "name": "Go", "color": "#00add8" },
+    "pushedAt": "2024-07-08T10:00:00Z",
+    "description": "A minimal static-site generator for developer blogs"
+  }
+}

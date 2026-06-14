@@ -1,13 +1,29 @@
 ---
-
 import Layout from '../layouts/Layout.astro';
-import Profile from '../components/Profile.astro';
-import OSSGrid from '../components/OSSGrid.astro';
-import WorkCarousel from '../components/WorkCarousel.astro';
+import ProfileStat from '../components/ProfileStat.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import Colophon from '../components/Colophon.astro';
+import { getCollection } from 'astro:content';
+import { fetchGitHubStats } from '../lib/github';
+import { personLd } from '../lib/schema';
+import { profile } from '../data/profile';
+
+const entries = await getCollection('projects');
+const sorted = entries.sort((a, b) => a.data.order - b.data.order);
+
+const statsMap = await fetchGitHubStats(profile.handle);
+
+const totalStars = sorted.reduce((sum, e) => {
+  const s = statsMap[e.data.repo];
+  return sum + (s?.stargazerCount ?? 0);
+}, 0);
+
+const siteUrl = Astro.site?.href ?? 'https://yourname.dev/';
+const jsonLd = personLd(profile, siteUrl);
 ---
 
-<Layout>
-  <Profile />
-  <OSSGrid />
-  <WorkCarousel />
+<Layout type="profile" jsonLd={jsonLd}>
+  <ProfileStat totalStars={totalStars} repoCount={sorted.length} />
+  <ProjectGrid projects={sorted} statsMap={statsMap} />
+  <Colophon />
 </Layout>
