@@ -1,0 +1,66 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import type { CollectionEntry } from 'astro:content';
+import type { GitHubStats } from '../lib/github';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  statsMap: Record<string, GitHubStats>;
+}
+
+const { projects, statsMap } = Astro.props;
+---
+
+<section id="projects" aria-labelledby="projects-h" class="projects-section">
+  <div class="container">
+    <header class="section-header reveal">
+      <h2 id="projects-h">Open source</h2>
+      <p>Projects I've built and maintain for the community.</p>
+    </header>
+
+    <ul class="project-grid" role="list">
+      {projects.map((entry, i) => (
+        <li>
+          <ProjectCard
+            entry={entry}
+            stats={statsMap[entry.data.repo]}
+            index={i}
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .projects-section {
+    background: var(--panel);
+    padding-block: clamp(5rem, 10vw, 9rem);
+  }
+
+  .section-header {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header p {
+    font-size: 1rem;
+    color: var(--ink-2);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: 1.25rem;
+    list-style: none;
+  }
+
+  .project-grid li { display: flex; }
+</style>
